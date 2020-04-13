@@ -1,18 +1,19 @@
-import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import React, { Component } from 'react';
+import {NavigationContainer, useBackButton} from '@react-navigation/native';
 import {
   createStackNavigator,
   HeaderTitle,
   headerStyle,
+  HeaderBackButton,
+  HeaderStyleInterpolators,
 } from '@react-navigation/stack';
-import {View, Image} from 'react-native';
-import {MdShoppingBasket} from 'react-icons/md';
+import Header from './components/Header';
+import Icon from 'react-native-vector-icons/Ionicons'
 
 const Stack = createStackNavigator();
 
 import Home from './pages/Home';
 import Cart from './pages/Cart';
-import logo from './assets/logo.png';
 
 function Routes() {
   return (
@@ -20,25 +21,13 @@ function Routes() {
       <Stack.Navigator
         screenOptions={{
           headerTitle: false,
+          gestureEnabled: true,
           headerTransparent: true,
-          headerBackground: () => (
-            <View
-              style={{
-                flex: 1,
-                paddingTop: 20,
-                justifyContent: 'center',
-                alignItems: 'flex-start'
-              }}>
-              <Image
-                source={logo}
-                resizeMode="contain"
-                style={{height: 25, marginLeft: 2}}
-              />
-              <View>
-
-              </View>
-            </View>
-          ),
+          headerBackTitle: false,
+          headerPressColorAndroid: '#fff',
+          headerBackImage: () => (
+            <Icon name="ios-arrow-back" size={30} color="#fff" style={{marginLeft: 5}} />
+          )
         }}>
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Cart" component={Cart} />

@@ -1,91 +1,64 @@
-import React from 'react';
-import {View, Text, StyleSheet, Image, FlatList} from 'react-native';
-import tenis from '../../assets/tenis1.jpg';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import React, {useEffect, useState} from 'react';
+import {View} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import api from '../../services/api';
+import Header from '../../components/Header';
 
-// import { Container } from './styles';
+import { Container, List, Box, Photo, Title, Price, Button, ButtonText, ButtonCart, ButtonCartText } from './styles';
 
-export default function Home() {
+export default function Home({navigation}) {
+  const [products, setProducts] = useState([]);
+
+  async function loadProducts() {
+    const response = await api.get('/products');
+
+    setProducts(response.data);
+  }
+
+  useEffect(() => {
+    loadProducts();
+  }, []);
+
+  function navigateToCart(product) {
+    navigation.navigate('Cart', {product})
+  }
+
   return (
-    <View style={styles.container}>
-      <FlatList
-        style={styles.list}
+    <>
+    <Header navigation={navigation}/>
+    <Container>
+      <List
+        data={products}
+        key={products.id}
         horizontal
-        data={[{key: 'a'}, {key: 'b'}]}
-        renderItem={(item) => (
-          <View style={styles.box}>
-            <Image resizeMode="contain" style={styles.image} source={tenis} />
-            
+        renderItem={({item: product}) => (
+          <Box>
+            <Photo resizeMode="contain" source={{uri: product.image}} />
+              
             <View style={{paddingLeft: 10}}>
-              <Text style={styles.title}>
-                Tênis de Caminhada Leve Confortável
-              </Text>
-              <Text style={styles.price}>
-                R$ 200
-              </Text>
-              <TouchableOpacity style={styles.button}>
-                <Text style={styles.buttonText}>
+              <Title>
+                {product.title}
+              </Title>
+              <Price>
+                {product.price}
+              </Price>
+              <Button onPress={() => navigateToCart(product)} >
+                <ButtonCart>
+                  <Icon name="cart" size={20} color="#fff" />
+                  <ButtonCartText>
+                    1
+                  </ButtonCartText>
+                </ButtonCart>
+                <ButtonText>
                   Adicionar
-                </Text>
-              </TouchableOpacity>
+                </ButtonText>
+              </Button>
             </View>
-          </View>
+          </Box>
         )}
       />
-    </View>
+    </Container>
+    </>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    backgroundColor: '#333',
-  },
-
-  box: {
-    borderRadius: 10,
-    height: 450,
-    width: 280,
-    backgroundColor: "#fff",
-    marginRight: 15
-  },
-
-  image: {
-    alignSelf: "center",
-    width: "90%"
-  },
-
-  title: {
-    fontSize: 22,
-  },
-
-  price: {
-    marginTop: 10,
-    fontSize: 20,
-    fontWeight: "bold"
-  },
-
-  list: {
-    flex: 1,
-    marginVertical: 1,
-    marginTop: 90,
-    marginLeft: 15,
-  },
-
-  button: {
-    backgroundColor: "#7159c1",
-    height: 50,
-    width: "96%",
-    marginTop: 30,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 5,
-  },
-
-  buttonText: {
-    fontSize: 16,
-    color: "#fff",
-    fontWeight: "bold",
-  }
-});
