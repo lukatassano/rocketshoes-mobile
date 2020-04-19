@@ -1,23 +1,16 @@
-import React, { Component } from 'react';
-import {NavigationContainer, useBackButton} from '@react-navigation/native';
-import {
-  createStackNavigator,
-  HeaderTitle,
-  headerStyle,
-  HeaderBackButton,
-  HeaderStyleInterpolators,
-} from '@react-navigation/stack';
-import Header from './components/Header';
+import React from 'react';
+import { connect } from "react-redux";
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/Ionicons'
 
 const Stack = createStackNavigator();
 
-import Home from './pages/Home';
+import Main from './pages/Main';
 import Cart from './pages/Cart';
 
 function Routes() {
   return (
-    <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
           headerTitle: false,
@@ -29,10 +22,9 @@ function Routes() {
             <Icon name="ios-arrow-back" size={30} color="#fff" style={{marginLeft: 5}} />
           )
         }}>
-        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Main" component={Main} />
         <Stack.Screen name="Cart" component={Cart} />
       </Stack.Navigator>
-    </NavigationContainer>
   );
 }
 

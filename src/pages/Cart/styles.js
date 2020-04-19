@@ -1,6 +1,4 @@
 import styled from "styled-components/native";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { size } from "polished";
 
 export const Container = styled.View`
   flex: 1;
@@ -121,4 +119,22 @@ export const ButtonFinishText = styled.Text`
   font-size: 20px;
   font-weight: bold;
   color: #fff;
+`;
+
+export const EmptyContainer = styled.View`
+  background-color: #fff;
+  height: 150px;
+  width: 90%;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const EmptyText = styled.Text`
+  font-size: 20px;
+  margin-top: 10px;
+  font-weight: bold;
+`;
+
+export const List = styled.FlatList`
 `;

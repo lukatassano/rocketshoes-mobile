@@ -10,15 +10,16 @@ export const Container = styled.View`
 export const Box = styled.View`
   border-radius: 10px;
   width: 250px;
-  height: 422px;
+  height: 412px;
   background-color: #fff;
   margin: 0 10px;
 `;
 
 export const Photo = styled.Image`
   align-self: center;
-  width: 240px;
-  height: 240px;
+  border-radius: 5px;
+  width: 230px;
+  height: 230px;
 `;
 
 export const Title = styled.Text.attrs({
@@ -58,7 +59,7 @@ export const ButtonText = styled.Text`
 `;
 
 export const ButtonCart = styled.View`
-  background-color: ${darken(0.1, '#7159c1')};
+  background-color: ${darken(0.03, '#7159c1')};
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   width: 30%;
