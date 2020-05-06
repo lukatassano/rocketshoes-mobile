@@ -3,6 +3,7 @@
 </p>
 
 <p align="center">
-  <img src="./assets/Home.png" width="40%" />
-  <img src="./assets/Cart.png" width="40%" />
+  <img src="./assets/Home.png" width="30%" />
+  <img src="./assets/Cart.png" width="30%" />
+  <img src="./assets/rocketshoesMobile.gif" width="35%" />
 </p>
