@@ -1,16 +1,17 @@
+import { Alert } from "react-native";
 import { call, select, put, all, takeLatest } from "redux-saga/effects";
 
-import api from '../../../services/api';
-import * as navigation from '../../../services/navigation'; 
+import api from "../../../services/api";
+import * as navigation from "../../../services/navigation";
 
 import { formatPrice } from "../../../util/format";
 
-import {addToCartSuccess, updateAmountSuccess} from './actions';
+import { addToCartSuccess, updateAmountSuccess } from "./actions";
 
-function* addToCart({id}) {
-  const productExists = yield select(
-    state => state.cart.find(p => p.id === id),
-  )
+function* addToCart({ id }) {
+  const productExists = yield select((state) =>
+    state.cart.find((p) => p.id === id)
+  );
 
   const stock = yield call(api.get, `stock/${id}`);
 
@@ -21,8 +22,7 @@ function* addToCart({id}) {
   const amount = currentAmount + 1;
 
   if (amount > stockAmount) {
-    toast.error('Quantidade solicitada fora de estoque')
-    
+    Alert.alert("Quantidade solicitada fora de estoque");
     return;
   }
 
@@ -31,36 +31,37 @@ function* addToCart({id}) {
 
     yield put(updateAmountSuccess(id, amount));
   } else {
-    const response = yield call(api.get, `/products/${id}`)
+    const response = yield call(api.get, `/products/${id}`);
 
     const data = {
       ...response.data,
       amount: 1,
-      priceFormatted: formatPrice(response.data.price), 
-    }
+      priceFormatted: formatPrice(response.data.price),
+    };
 
     yield put(addToCartSuccess(data));
 
-    navigation.navigate('Cart');
-    
+    navigation.navigate("Cart");
+
     //history.push('/cart');
-  } 
+  }
 }
 
-function* updateAmount({id, amount}) {
-  if ( amount <= 0 ) return;
+function* updateAmount({ id, amount }) {
+  if (amount <= 0) return;
 
   const stock = yield call(api.get, `stock/${id}`);
   const stockAmount = stock.data.amount;
 
-  if ( amount > stockAmount ) {
-    return toast.error('Quantidade solicitada fora de estoque');
+  if (amount > stockAmount) {
+    Alert.alert("Quantidade solicitada fora de estoque");
+    return;
   }
 
   yield put(updateAmountSuccess(id, amount));
 }
 
 export default all([
-  takeLatest('@cart/ADD_REQUEST', addToCart),
-  takeLatest('@cart/UPDATE_AMOUNT_REQUEST', updateAmount),
-])
+  takeLatest("@cart/ADD_REQUEST", addToCart),
+  takeLatest("@cart/UPDATE_AMOUNT_REQUEST", updateAmount),
+]);
